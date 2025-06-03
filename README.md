@@ -1,0 +1,1 @@
+# sistema-diagnostico-computador
