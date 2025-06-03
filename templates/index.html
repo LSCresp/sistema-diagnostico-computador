@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Especialista</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h2, h3 {
+            color: #004080;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .radio-group {
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0066cc;
+        }
+        #resposta {
+            background-color: #e6f0ff;
+            padding: 15px;
+            border-radius: 6px;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Diagnóstico de Problemas no Computador</h2>
+    <form id="formDiagnostico">
+        <div class="radio-group">
+            <label>O computador está ligado?</label>
+            <input type="radio" name="energia" value="s" required> Sim
+            <input type="radio" name="energia" value="n"> Não
+        </div>
+        <div class="radio-group">
+            <label>Cabo de energia está conectado?</label>
+            <input type="radio" name="cabo" value="s"> Sim
+            <input type="radio" name="cabo" value="n"> Não
+        </div>
+        <div class="radio-group">
+            <label>Tela mostra imagem?</label>
+            <input type="radio" name="tela" value="s"> Sim
+            <input type="radio" name="tela" value="n"> Não
+        </div>
+        <div class="radio-group">
+            <label>Está conectado à internet?</label>
+            <input type="radio" name="internet" value="s"> Sim
+            <input type="radio" name="internet" value="n"> Não
+        </div>
+        <div class="radio-group">
+            <label>Está usando Wi-Fi?</label>
+            <input type="radio" name="wifi" value="s"> Sim
+            <input type="radio" name="wifi" value="n"> Não
+        </div>
+        <div class="radio-group">
+            <label>Senha do Wi-Fi está correta?</label>
+            <input type="radio" name="senha" value="s"> Sim
+            <input type="radio" name="senha" value="n"> Não
+        </div>
+        <button type="submit">Diagnosticar</button>
+    </form>
+
+    <h3>Resultado:</h3>
+    <p id="resposta"></p>
+
+    <script>
+        const form = document.getElementById("formDiagnostico");
+        const resposta = document.getElementById("resposta");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            const response = await fetch("http://127.0.0.1:5000/api/diagnostico", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            resposta.textContent = result.resposta;
+        });
+    </script>
+</body>
+</html>
+
