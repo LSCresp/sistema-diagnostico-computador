@@ -1,3 +1,4 @@
+
 # Sistema Especialista de Diagnóstico de Computadores
 
 Este é um sistema especialista simples, desenvolvido com Flask (Python) e HTML, que simula um diagnóstico automatizado para problemas comuns em computadores pessoais.
@@ -10,4 +11,6 @@ Este é um sistema especialista simples, desenvolvido com Flask (Python) e HTML,
 - Interface amigável com botões de opção (sim/não)
 - Estilização moderna e responsiva com HTML + CSS
 - Comunicação assíncrona entre frontend e backend via API REST
+
+
 
