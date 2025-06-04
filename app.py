@@ -11,32 +11,27 @@ def home():
 @app.route("/api/diagnostico", methods=["POST"])
 def diagnostico():
     data = request.json
-    energia = data.get("energia")
-    if energia == 'n':
-        cabo = data.get("cabo")
-        if cabo == 'n':
-            return jsonify({"resposta": "🔧 Solução: Conecte o cabo de energia corretamente."})
+    febre = data.get("febre")
+    if febre == 's':
+        tosse = data.get("tosse")
+        if tosse == 's':
+            return jsonify({"resposta": "🩺 Recomendação: Você pode estar com uma infecção respiratória, como gripe ou resfriado. Consulte um médico para avaliação."})
         else:
-            return jsonify({"resposta": "🔧 Solução: Verifique a fonte de energia ou leve o computador a um técnico."})
+            return jsonify({"resposta": "🩺 Recomendação: Febre sem tosse pode indicar uma infecção ou outra condição. Monitore sua temperatura e consulte um médico."})
 
-    tela = data.get("tela")
-    if tela == 'n':
-        return jsonify({"resposta": "🔧 Solução: Verifique a conexão do monitor ou troque o cabo de vídeo."})
+    dor = data.get("dor")
+    if dor == 's':
+        return jsonify({"resposta": "🩺 Recomendação: Dor localizada pode indicar lesão ou inflamação. Descanse a área afetada e procure um médico se persistir."})
 
-    internet = data.get("internet")
-    if internet == 'n':
-        wifi = data.get("wifi")
-        if wifi == 's':
-            senha = data.get("senha")
-            if senha == 'n':
-                return jsonify({"resposta": "🔧 Solução: Corrija a senha do Wi-Fi."})
-            else:
-                return jsonify({"resposta": "🔧 Solução: Reinicie o roteador ou verifique com o provedor."})
+    fadiga = data.get("fadiga")
+    if fadiga == 's':
+        sono = data.get("sono")
+        if sono == 's':
+            return jsonify({"resposta": "🩺 Recomendação: Fadiga com sono adequado pode indicar anemia ou outra condição. Consulte um médico para exames."})
         else:
-            return jsonify({"resposta": "🔧 Solução: Verifique o cabo de rede ou a porta de conexão."})
+            return jsonify({"resposta": "🩺 Recomendação: Melhore a qualidade do sono e hidrate-se. Se a fadiga persistir, procure um médico."})
 
-    return jsonify({"resposta": "✅ O sistema não detectou nenhum problema com o computador."})
+    return jsonify({"resposta": "✅ Não foram detectados sintomas graves com base nas respostas. Mantenha um estilo de vida saudável."})
 
 if __name__ == "__main__":
     app.run(debug=True)
-

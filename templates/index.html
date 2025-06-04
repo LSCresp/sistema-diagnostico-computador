@@ -1,111 +1,330 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Sistema Especialista</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sistema Especialista Médico</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+        /* Reset e estilos básicos */
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h2, h3 {
-            color: #004080;
+        html, body {
+            height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f9ff;
+            color: #2c3e50;
         }
-        form {
+
+        /* Cabeçalho */
+        header {
+            background-color: #0e568a;
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 5px;
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Card do formulário */
+        .card {
             background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 500px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 40px;
         }
-        label {
+        .card-header {
+            background-color: #2980b9;
+            color: #fff;
+            padding: 20px 25px;
+        }
+        .card-header h2 {
+            font-size: 1.8rem;
+        }
+        .card-body {
+            padding: 25px;
+        }
+
+        /* Estilo do formulário */
+        form {
+            width: 100%;
+        }
+        .field-group {
+            margin-bottom: 22px;
+        }
+        .field-group .question-label {
             display: block;
+            font-weight: 600;
             margin-bottom: 10px;
+            color: #0e568a;
         }
-        .radio-group {
-            margin-bottom: 15px;
+
+        /* Grid de opções de rádio */
+        .radio-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #004080;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        .radio-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 10px 12px;
+            border: 1px solid #c3d9e8;
+            border-radius: 6px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .radio-options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2980b9;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0066cc;
+        .radio-options label:hover {
+            background-color: #ebf6fe;
+            border-color: #7fb4e6;
+        }
+        .radio-options input[type="radio"]:checked + span {
+            font-weight: 700;
+            color: #2980b9;
+        }
+
+        /* Botão principal */
+        .btn-primary {
+            display: inline-block;
+            background-color: #0e568a;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s;
+        }
+        .btn-primary:hover {
+            background-color: #0b436f;
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* Seção de resultado */
+        #resultado-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            padding: 25px;
+            margin-bottom: 60px;
+        }
+        #resultado-container h3 {
+            color: #0e568a;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
         }
         #resposta {
-            background-color: #e6f0ff;
-            padding: 15px;
+            background-color: #f0faff;
+            border-left: 5px solid #2980b9;
+            padding: 20px;
             border-radius: 6px;
-            max-width: 500px;
+            line-height: 1.6;
+            min-height: 80px;
+            font-size: 1rem;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #5a6b7d;
+            opacity: 0.85;
+        }
+        footer a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .card-header h2 {
+                font-size: 1.5rem;
+            }
+            .radio-options {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h2>Diagnóstico de Problemas no Computador</h2>
-    <form id="formDiagnostico">
-        <div class="radio-group">
-            <label>O computador está ligado?</label>
-            <input type="radio" name="energia" value="s" required> Sim
-            <input type="radio" name="energia" value="n"> Não
-        </div>
-        <div class="radio-group">
-            <label>Cabo de energia está conectado?</label>
-            <input type="radio" name="cabo" value="s"> Sim
-            <input type="radio" name="cabo" value="n"> Não
-        </div>
-        <div class="radio-group">
-            <label>Tela mostra imagem?</label>
-            <input type="radio" name="tela" value="s"> Sim
-            <input type="radio" name="tela" value="n"> Não
-        </div>
-        <div class="radio-group">
-            <label>Está conectado à internet?</label>
-            <input type="radio" name="internet" value="s"> Sim
-            <input type="radio" name="internet" value="n"> Não
-        </div>
-        <div class="radio-group">
-            <label>Está usando Wi-Fi?</label>
-            <input type="radio" name="wifi" value="s"> Sim
-            <input type="radio" name="wifi" value="n"> Não
-        </div>
-        <div class="radio-group">
-            <label>Senha do Wi-Fi está correta?</label>
-            <input type="radio" name="senha" value="s"> Sim
-            <input type="radio" name="senha" value="n"> Não
-        </div>
-        <button type="submit">Diagnosticar</button>
-    </form>
+    <header>
+        <h1>🩺 Sistema Especialista Médico</h1>
+        <p>Diagnóstico preliminar de sintomas online</p>
+    </header>
 
-    <h3>Resultado:</h3>
-    <p id="resposta"></p>
+    <div class="container">
+        <!-- Card de formulário -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Relate Seus Sintomas</h2>
+            </div>
+            <div class="card-body">
+                <form id="formDiagnostico">
+                    <!-- FEBRE -->
+                    <div class="field-group">
+                        <span class="question-label">Você está com febre?</span>
+                        <div class="radio-options">
+                            <label>
+                                <input type="radio" name="febre" value="s" required />
+                                <span>Sim</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="febre" value="n" />
+                                <span>Não</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- TOSSE -->
+                    <div class="field-group">
+                        <span class="question-label">Você está com tosse?</span>
+                        <div class="radio-options">
+                            <label>
+                                <input type="radio" name="tosse" value="s" />
+                                <span>Sim</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="tosse" value="n" />
+                                <span>Não</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- DOR LOCALIZADA -->
+                    <div class="field-group">
+                        <span class="question-label">Você sente dor localizada (ex.: cabeça, músculos)?</span>
+                        <div class="radio-options">
+                            <label>
+                                <input type="radio" name="dor" value="s" />
+                                <span>Sim</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="dor" value="n" />
+                                <span>Não</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- FADIGA -->
+                    <div class="field-group">
+                        <span class="question-label">Você está com fadiga ou cansaço excessivo?</span>
+                        <div class="radio-options">
+                            <label>
+                                <input type="radio" name="fadiga" value="s" />
+                                <span>Sim</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="fadiga" value="n" />
+                                <span>Não</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- QUALIDADE DO SONO -->
+                    <div class="field-group">
+                        <span class="question-label">Você tem dormido bem?</span>
+                        <div class="radio-options">
+                            <label>
+                                <input type="radio" name="sono" value="s" />
+                                <span>Sim</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="sono" value="n" />
+                                <span>Não</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- BOTÃO SUBMIT -->
+                    <div class="field-group" style="text-align: center;">
+                        <button type="submit" class="btn-primary">🔍 Diagnosticar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Seção de resultado -->
+        <div id="resultado-container">
+            <h3>Resultado do Diagnóstico</h3>
+            <p id="resposta">Aguardando preenchimento do formulário...</p>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Sistema Especialista Médico. Todos os direitos reservados.
+        <br />
+        <a href="#">Termos de Uso</a> • <a href="#">Política de Privacidade</a>
+    </footer>
 
     <script>
+        // Seleciona o <form> e o <p> onde a resposta virá
         const form = document.getElementById("formDiagnostico");
         const resposta = document.getElementById("resposta");
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
+            // Mostra mensagem de “processando”
+            resposta.textContent = "Processando diagnóstico, por favor aguarde...";
 
+            // Transforma os campos do form em objeto JSON
             const data = Object.fromEntries(new FormData(form).entries());
 
-            const response = await fetch("http://127.0.0.1:5000/api/diagnostico", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
+            try {
+                // Aqui usamos URL relativa: /api/diagnostico
+                const response = await fetch("/api/diagnostico", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
 
-            const result = await response.json();
-            resposta.textContent = result.resposta;
+                if (!response.ok) {
+                    // Se der erro de rede ou 4xx/5xx, exibimos mensagem genérica
+                    resposta.textContent = "Erro na comunicação com o servidor (" + response.status + ").";
+                    return;
+                }
+
+                const result = await response.json();
+                // O Flask retorna sempre um JSON com {"resposta": "..."}
+                resposta.textContent = result.resposta || "Nenhum diagnóstico foi retornado.";
+            } catch (error) {
+                resposta.textContent = "Erro ao obter diagnóstico: " + error.message;
+            }
         });
     </script>
 </body>
 </html>
-
